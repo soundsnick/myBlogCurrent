@@ -1,0 +1,29 @@
+<div class="main">
+  <div class="container">
+    <div class="posts">
+      <h1 class="title">
+        <%= @meta_title %>
+      </h1>
+      <% @posts.each do |post| %>
+        <div class="post">
+          <span class="post__title"><%= post.title %></span>
+          <p class="post__content"><%= post.content %></p>
+          <span class="post__published">Отредактировано: <%= post.updated_at.in_time_zone("Almaty").strftime('%d.%m.%Yг. %H:%M') %></span>
+          <span class="post__published">Опубликовано: <%= post.created_at.in_time_zone("Almaty").strftime('%d.%m.%Yг. %H:%M') %></span>
+          <% if post.tags %>
+            <div class="post__tags">
+              <% post.tags.split(',').each do |tag| %>
+                <a class="post__tag" href="<%= tag_path(tag) %>">#<%= tag %></a>
+              <% end %>
+            </div>
+          <% end %>
+
+          <% if post.attachment.url %>
+              <img class="post__image" src="<%= post.attachment.url %>" alt="<%= post.title %>">
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+    <%= will_paginate @posts %>
+  </div>
+</div>
